@@ -1,0 +1,7 @@
+[workspace]
+members = ["balancer", "daemon"]
+resolver = "2"
+
+[workspace.dependencies]
+tokio = { version = "*", features = ["full"] }
+tonic = "*"
