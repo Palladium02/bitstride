@@ -5,3 +5,4 @@ resolver = "2"
 [workspace.dependencies]
 tokio = { version = "*", features = ["full"] }
 tonic = "*"
+anyhow = "1.0.98"
