@@ -15,7 +15,9 @@ pub enum ConfigError {
 }
 
 #[derive(Debug, Deserialize)]
-pub struct Config;
+pub struct Config {
+    pub health_report_address: String,
+}
 
 impl Config {
     pub fn from_path<P>(path: P) -> Result<Self>

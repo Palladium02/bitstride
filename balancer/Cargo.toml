@@ -8,3 +8,9 @@ anyhow = "1.0.98"
 serde = { version = "1.0.219", features = ["derive"] }
 thiserror = "2.0.12"
 toml = "0.8.22"
+tonic = "*"
+prost = "*"
+tokio = { version = "*", features = ["full"] }
+
+[build-dependencies]
+tonic-build = "*"
