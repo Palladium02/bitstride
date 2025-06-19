@@ -1,8 +1,8 @@
 use tonic::{Request, Response, Status};
-use crate::health::health::health_server::Health;
-use crate::health::health::{Empty, HealthData};
+use crate::health::health_rpc::health_server::Health;
+use crate::health::health_rpc::{Empty, HealthData};
 
-pub(crate) mod health {
+pub(crate) mod health_rpc {
     tonic::include_proto!("health");
 }
 

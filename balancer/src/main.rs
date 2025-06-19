@@ -8,7 +8,7 @@ use anyhow::Result;
 use config::Config;
 use std::env::args;
 use tonic::transport::Server;
-use crate::health::health::health_server::HealthServer;
+use crate::health::health_rpc::health_server::HealthServer;
 use crate::health::HealthService;
 
 #[tokio::main]
