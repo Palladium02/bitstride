@@ -1,5 +1,8 @@
 mod config;
 mod health;
+mod metric;
+mod pool;
+mod success;
 
 use anyhow::Result;
 use config::Config;
@@ -10,10 +13,10 @@ use crate::health::HealthService;
 
 #[tokio::main]
 async fn main() -> Result<()> {
-    match args().skip(1).nth(0) {
+    match args().nth(1) {
         Some(config_path) => {
             let config = Config::from_path(config_path)?;
-            let health_service = HealthService::default();
+            let health_service = HealthService;
 
             Server::builder()
                 .add_service(HealthServer::new(health_service))
