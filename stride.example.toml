@@ -1,1 +1,1 @@
-health_report_address = "[::1]:1337"
+rpc_address = "[::1]:1337"

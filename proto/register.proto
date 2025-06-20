@@ -1,0 +1,14 @@
+syntax = "proto3";
+package register;
+
+service Register {
+  rpc RegisterNode (NodeInformation) returns (Empty);
+}
+
+message Empty {};
+
+message NodeInformation {
+  string id = 1;
+  string address = 2;
+  uint64 max_connections = 3;
+};

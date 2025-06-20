@@ -16,7 +16,7 @@ pub enum ConfigError {
 
 #[derive(Debug, Deserialize)]
 pub struct Config {
-    pub health_report_address: String,
+    pub rpc_address: String,
 }
 
 impl Config {
