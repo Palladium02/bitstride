@@ -12,6 +12,7 @@ use std::process::exit;
 use tonic::transport::Server;
 use crate::health::health_rpc::health_server::HealthServer;
 use crate::health::HealthService;
+use crate::pool::Pool;
 use crate::register::register_rpc::register_server::RegisterServer;
 use crate::register::RegisterService;
 
@@ -22,6 +23,7 @@ async fn main() -> Result<()> {
             let config = Config::from_path(config_path)?;
             let health_service = HealthService;
             let register_service = RegisterService;
+            let pool = Pool::new();
             
             Server::builder()
                 .add_service(HealthServer::new(health_service))

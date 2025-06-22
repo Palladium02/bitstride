@@ -1,3 +1,4 @@
+use std::cmp::Ordering;
 use crate::success::SuccessTracker;
 
 const ALPHA: f32 = 1.0;
@@ -31,5 +32,23 @@ impl NodeMetrics {
                 GAMMA * ram_score +
                 DELTA * connection_score
         ) / sum_weights
+    }
+}
+
+impl PartialEq<Self> for NodeMetrics {
+    fn eq(&self, other: &Self) -> bool {
+        self.evaluate() == other.evaluate()
+    }
+}
+
+impl Eq for NodeMetrics {}
+
+impl PartialOrd<Self> for NodeMetrics {
+    fn partial_cmp(&self, other: &Self) -> Option<Ordering> { Some(self.cmp(other)) }
+}
+
+impl Ord for NodeMetrics {
+    fn cmp(&self, other: &Self) -> Ordering {
+        self.evaluate().partial_cmp(&other.evaluate()).expect("")
     }
 }
