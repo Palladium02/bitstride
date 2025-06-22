@@ -8,6 +8,7 @@ mod register;
 use anyhow::Result;
 use config::Config;
 use std::env::args;
+use std::process::exit;
 use tonic::transport::Server;
 use crate::health::health_rpc::health_server::HealthServer;
 use crate::health::HealthService;
@@ -30,7 +31,8 @@ async fn main() -> Result<()> {
         None => {
             eprint!(
                 "Missing argument for path to config\nUsage: bitstride path/to/stride.toml or cargo run -p balancer -- path/to/stride.toml (when running from source)\n"
-            )
+            );
+            exit(1);
         }
     }
 
