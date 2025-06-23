@@ -24,6 +24,14 @@ jobs:
           toolchain: stable
           components: clippy
 
+      - name: Install Miri
+        run: |
+          rustup toolchain install nightly --component miri
+          rustup override set nightly
+          cargo miri setup
+      - name: Test with Miri
+        run: cargo miri test
+
       - name: Cache cargo registry and target
         uses: actions/cache@v4
         with:
