@@ -27,7 +27,7 @@ impl HealthService {
             println!("Used memory: {}/{} MB", currently_used_memory / 1024, total_memory / 1024);
 
             let avg_cpu_usage: f32 = system.cpus().iter().map(|c| c.cpu_usage()).sum::<f32>() / system.cpus().len() as f32;
-            println!("Average CPU usage: {:.2}%", avg_cpu_usage);
+            println!("Average CPU usage: {avg_cpu_usage:.2}%");
 
             let request = tonic::Request::new(HealthData {
                 ram: currently_used_memory as f32 / total_memory as f32,
