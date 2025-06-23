@@ -1,4 +1,5 @@
 use std::cmp::Ordering;
+use crate::register::register_rpc::NodeInformation;
 use crate::success::SuccessTracker;
 
 const ALPHA: f32 = 1.0;
@@ -6,8 +7,9 @@ const BETA: f32 = 1.0;
 const GAMMA: f32 = 1.0;
 const DELTA: f32 = 1.0;
 
+#[derive(Debug, Clone)]
 pub struct NodeMetrics {
-    id: String,
+    pub id: String,
     max_connections: usize,
     current_connections: usize,
     cpu_usage: f32,
@@ -50,5 +52,18 @@ impl PartialOrd<Self> for NodeMetrics {
 impl Ord for NodeMetrics {
     fn cmp(&self, other: &Self) -> Ordering {
         self.evaluate().partial_cmp(&other.evaluate()).expect("")
+    }
+}
+
+impl From<NodeInformation> for NodeMetrics {
+    fn from(info: NodeInformation) -> NodeMetrics {
+        NodeMetrics {
+            id: info.id.to_string(),
+            max_connections: 0,
+            current_connections: 0,
+            cpu_usage: 0.0,
+            ram_usage: 0.0,
+            success_tracker: SuccessTracker::new(1.0),
+        }
     }
 }

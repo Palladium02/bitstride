@@ -2,7 +2,6 @@ use anyhow::Result;
 use serde::Deserialize;
 use std::{fs::File, io::Read, path::Path};
 use thiserror::Error;
-use toml;
 
 #[derive(Debug, Error)]
 pub enum ConfigError {

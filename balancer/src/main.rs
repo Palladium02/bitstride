@@ -9,6 +9,7 @@ use anyhow::Result;
 use config::Config;
 use std::env::args;
 use std::process::exit;
+use std::sync::{Arc, Mutex};
 use tonic::transport::Server;
 use crate::health::health_rpc::health_server::HealthServer;
 use crate::health::HealthService;
@@ -21,9 +22,9 @@ async fn main() -> Result<()> {
     match args().nth(1) {
         Some(config_path) => {
             let config = Config::from_path(config_path)?;
+            let pool = Arc::new(Mutex::new(Pool::new()));
             let health_service = HealthService;
-            let register_service = RegisterService;
-            let pool = Pool::new();
+            let register_service = RegisterService::new(Arc::clone(&pool));
             
             Server::builder()
                 .add_service(HealthServer::new(health_service))

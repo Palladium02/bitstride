@@ -15,6 +15,7 @@ impl SuccessTracker {
         }
     }
 
+    #[allow(unused)] // TODO: remove later, currently here to satisfy the CI pipeline (specifically clippy)
     pub fn update(&mut self, is_success: bool) {
         let success = match is_success {
             true => 1.0,
