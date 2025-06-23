@@ -21,12 +21,13 @@ jobs:
       - name: Install Rust toolchain
         uses: actions-rs/toolchain@v1
         with:
-          toolchain: stable
+          toolchain: nightly
           components: clippy
 
       - name: Install Miri
         run: |
-          rustup toolchain install --component miri
+          rustup toolchain install nightly --component miri
+          rustup override set nightly
           cargo miri setup
       - name: Test with Miri
         run: cargo miri test
