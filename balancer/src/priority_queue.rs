@@ -24,6 +24,7 @@ impl PriorityQueue
         self.index.insert(item.id.clone(), index);
     }
     
+    #[allow(unused)] // TODO: remove later, when implementing proxy logic
     pub fn pop(&mut self) -> Option<NodeMetrics> {
         if self.heap.is_empty() {
             return None;
@@ -43,6 +44,10 @@ impl PriorityQueue
                 self.sift_down(index);
             }
         }
+    }
+    
+    pub fn get_by_id(&self, id: &str) -> Option<&NodeMetrics> {
+        self.heap.get(*self.index.get(id).unwrap())
     }
     
     fn sift_up(&mut self, index: usize) -> usize {

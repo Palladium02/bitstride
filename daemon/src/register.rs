@@ -1,4 +1,3 @@
-use uuid::Uuid;
 use crate::register::register_rpc::NodeInformation;
 use crate::register::register_rpc::register_client::RegisterClient;
 

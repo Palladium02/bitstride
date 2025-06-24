@@ -10,11 +10,11 @@ const DELTA: f32 = 1.0;
 #[derive(Debug, Clone)]
 pub struct NodeMetrics {
     pub id: String,
-    max_connections: usize,
-    current_connections: usize,
-    cpu_usage: f32,
-    ram_usage: f32,
-    success_tracker: SuccessTracker,
+    pub max_connections: usize,
+    pub current_connections: usize,
+    pub cpu_usage: f32,
+    pub ram_usage: f32,
+    pub success_tracker: SuccessTracker,
 }
 
 impl NodeMetrics {

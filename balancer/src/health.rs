@@ -22,7 +22,7 @@ impl HealthService {
 #[tonic::async_trait]
 impl Health for HealthService {
     async fn report_health(&self, request: Request<HealthData>) -> Result<Response<Empty>, Status> {
-        println!("Got request {:?}", request.into_inner());
+        self.pool.lock().expect("").update(request.into_inner());
         
         Ok(Response::new(Empty {}))
     }
