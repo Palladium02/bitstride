@@ -23,7 +23,7 @@ async fn main() -> Result<()> {
         Some(config_path) => {
             let config = Config::from_path(config_path)?;
             let pool = Arc::new(Mutex::new(Pool::new()));
-            let health_service = HealthService;
+            let health_service = HealthService::new(Arc::clone(&pool));
             let register_service = RegisterService::new(Arc::clone(&pool));
             
             Server::builder()

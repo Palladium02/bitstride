@@ -8,6 +8,7 @@ tonic = "*"
 prost = "*"
 tokio = { version = "*", features = ["full"] }
 sysinfo = "*"
+uuid = { version = "1.17.0", features = ["v4"] }
 
 [build-dependencies]
 tonic-build = "*"

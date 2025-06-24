@@ -3,17 +3,20 @@ mod health;
 
 use std::env::args;
 use std::process::exit;
+use uuid::Uuid;
 use crate::health::HealthService;
 use crate::register::RegisterService;
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>>{
     match args().nth(1) {
-        Some(url) => { 
-            RegisterService::new()
+        Some(url) => {
+            let id = Uuid::new_v4().to_string();
+            
+            RegisterService::new(id.clone())
                 .register_self(&url).await?;
             
-            HealthService::new()
+            HealthService::new(id.clone())
                .setup_report_loop(&url).await?;
             
         }

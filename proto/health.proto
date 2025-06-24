@@ -8,6 +8,7 @@ service Health {
 message Empty {};
 
 message HealthData {
-  float ram = 1;
-  float cpu = 2;
+  string id = 1;
+  float ram = 2;
+  float cpu = 3;
 };

@@ -25,6 +25,8 @@ impl Register for RegisterService {
     async fn register_node(&self, request: Request<NodeInformation>) -> Result<Response<Empty>, Status> {
         self.pool.lock().expect("Poisoned lock").add(NodeMetrics::from(request.into_inner()));
         
+        println!("Node registered");
+        
         Ok(Response::new(Empty {}))
     }
 }

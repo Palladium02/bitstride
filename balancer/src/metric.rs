@@ -63,7 +63,7 @@ impl From<NodeInformation> for NodeMetrics {
             current_connections: 0,
             cpu_usage: 0.0,
             ram_usage: 0.0,
-            success_tracker: SuccessTracker::new(1.0),
+            success_tracker: SuccessTracker::new(0.5),
         }
     }
 }

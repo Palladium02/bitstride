@@ -9,6 +9,5 @@ message Empty {};
 
 message NodeInformation {
   string id = 1;
-  string address = 2;
-  uint64 max_connections = 3;
+  uint64 max_connections = 2;
 };
