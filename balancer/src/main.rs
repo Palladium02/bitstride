@@ -4,6 +4,7 @@ mod metric;
 mod pool;
 mod success;
 mod register;
+mod priority_queue;
 
 use anyhow::Result;
 use config::Config;

@@ -1,22 +1,20 @@
 use std::collections::{BinaryHeap, HashMap};
 use crate::metric::NodeMetrics;
+use crate::priority_queue::PriorityQueue;
 
 #[derive(Debug)]
 pub struct Pool {
-    heap: BinaryHeap<NodeMetrics>,
-    index: HashMap<String, NodeMetrics>,
+    priority_queue: PriorityQueue,
 }
 
 impl Pool {
     pub fn new() -> Pool {
         Self {
-            heap: BinaryHeap::new(),
-            index: HashMap::new(),
+            priority_queue: PriorityQueue::new(),
         }
     }
     
     pub fn add(&mut self, metric: NodeMetrics) {
-        self.heap.push(metric.clone());
-        self.index.insert(metric.id.clone(), metric);
+        self.priority_queue.insert(metric);
     }
 }
