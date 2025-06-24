@@ -1,3 +1,5 @@
+/// A success tracker that keeps track of the success rate using exponential decay
+/// to also keep track of historic data that eventually fades out.
 #[derive(Debug, Clone)]
 pub struct SuccessTracker {
     weighted_success: f32,

@@ -1,6 +1,7 @@
 use std::collections::HashMap;
 use crate::metric::NodeMetrics;
 
+/// A custom priority queue that allows for dynamic updates of priorities.
 #[derive(Debug)]
 pub(crate) struct PriorityQueue {
     heap: Vec<NodeMetrics>,
@@ -16,6 +17,8 @@ impl PriorityQueue
         }
     }
     
+    /// Inserts a given NodeMetrics instance into the queue.
+    /// Inserting preserves/automatically restores the heap properties.
     pub fn insert(&mut self, item: NodeMetrics) {
         self.heap.push(item.clone());
         
@@ -24,6 +27,8 @@ impl PriorityQueue
         self.index.insert(item.id.clone(), index);
     }
     
+    /// Removes entry from the queue while also returning said entry if present.
+    /// After returning the heap properties are guaranteed to be restored.
     #[allow(unused)] // TODO: remove later, when implementing proxy logic
     pub fn pop(&mut self) -> Option<NodeMetrics> {
         if self.heap.is_empty() {
@@ -34,9 +39,14 @@ impl PriorityQueue
         let item = self.heap.pop().unwrap();
         self.index.remove(&item.id);
         
+        self.sift_down(0);
+        
         Some(item)
     }
     
+    /// Takes a NodeMetrics instance and updates the corresponding instance (same id) inside the queue.
+    /// Updates only happen to existing instances, so no inserts will happen.
+    /// Potentially violated heap properties are restored by first trying to sift up and then if no change in position has happened by sifting down.
     pub fn update(&mut self, item: NodeMetrics) {
         if let Some(&index) = self.index.get(&item.id) {
             self.heap[index] = item;
@@ -46,6 +56,8 @@ impl PriorityQueue
         }
     }
     
+    /// Returns ref to NodeMetrics instance by id if present.
+    /// Panics if instance id is not present (subject to change).
     pub fn get_by_id(&self, id: &str) -> Option<&NodeMetrics> {
         self.heap.get(*self.index.get(id).unwrap())
     }
