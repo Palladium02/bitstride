@@ -2,7 +2,7 @@ use std::collections::HashMap;
 use crate::metric::NodeMetrics;
 
 /// A custom priority queue that allows for dynamic updates of priorities.
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub(crate) struct PriorityQueue {
     heap: Vec<NodeMetrics>,
     index: HashMap<String, usize>,

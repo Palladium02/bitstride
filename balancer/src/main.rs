@@ -6,38 +6,21 @@ mod success;
 mod register;
 mod priority_queue;
 mod proxy;
+mod balancer;
+mod grpc;
 
 use anyhow::Result;
 use config::Config;
 use std::env::args;
 use std::process::exit;
-use std::sync::{Arc};
-use tokio::{spawn, sync::Mutex};
-use tonic::transport::Server;
-use crate::health::health_rpc::health_server::HealthServer;
-use crate::health::HealthService;
-use crate::pool::Pool;
-use crate::proxy::Proxy;
-use crate::register::register_rpc::register_server::RegisterServer;
-use crate::register::RegisterService;
+use crate::balancer::Balancer;
 
 #[tokio::main]
 async fn main() -> Result<()> {
     match args().nth(1) {
         Some(config_path) => {
             let config = Config::from_path(config_path)?;
-            let pool = Arc::new(Mutex::new(Pool::new()));
-            let health_service = HealthService::new(Arc::clone(&pool));
-            let register_service = RegisterService::new(Arc::clone(&pool));
-            
-            spawn(async move {
-                Proxy::new(Arc::clone(&pool)).run().await
-            });
-            
-            Server::builder()
-                .add_service(HealthServer::new(health_service))
-                .add_service(RegisterServer::new(register_service))
-                .serve(config.rpc_address.parse()?).await?;
+            let _ = Balancer::new(config).run().await;
         }
         None => {
             eprint!(

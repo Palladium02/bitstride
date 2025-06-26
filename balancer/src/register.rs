@@ -10,7 +10,7 @@ pub(crate) mod register_rpc {
     tonic::include_proto!("register");
 }
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct RegisterService {
     pool: Arc<Mutex<Pool>>,
 }

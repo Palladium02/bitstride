@@ -2,7 +2,7 @@ use crate::health::health_rpc::HealthData;
 use crate::metric::NodeMetrics;
 use crate::priority_queue::PriorityQueue;
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct Pool {
     priority_queue: PriorityQueue,
 }

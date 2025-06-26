@@ -9,7 +9,7 @@ pub(crate) mod health_rpc {
     tonic::include_proto!("health");
 }
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct HealthService {
     pool: Arc<Mutex<Pool>>,
 }
