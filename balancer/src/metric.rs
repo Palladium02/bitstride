@@ -1,4 +1,6 @@
 use std::cmp::Ordering;
+use std::net::SocketAddr;
+use tonic::Request;
 use crate::register::register_rpc::NodeInformation;
 use crate::success::SuccessTracker;
 
@@ -10,6 +12,7 @@ const DELTA: f32 = 1.0;
 #[derive(Debug, Clone)]
 pub struct NodeMetrics {
     pub id: String,
+    pub ip: SocketAddr,
     pub max_connections: usize,
     pub current_connections: usize,
     pub cpu_usage: f32,
@@ -55,10 +58,15 @@ impl Ord for NodeMetrics {
     }
 }
 
-impl From<NodeInformation> for NodeMetrics {
-    fn from(info: NodeInformation) -> NodeMetrics {
-        NodeMetrics {
-            id: info.id.to_string(),
+impl From<Request<NodeInformation>> for NodeMetrics {
+    fn from(value: Request<NodeInformation>) -> Self {
+        let ip = value.remote_addr().expect("Failed to get remote address").ip();
+        let node_information = value.into_inner();
+        let service_address = SocketAddr::from((ip, node_information.service_port as u16));
+        
+        Self {
+            id: node_information.id,
+            ip: service_address,
             max_connections: 0,
             current_connections: 0,
             cpu_usage: 0.0,

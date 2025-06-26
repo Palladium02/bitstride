@@ -25,14 +25,11 @@ impl HealthService {
 
         loop {
             tokio::time::sleep(std::time::Duration::from_secs(5)).await;
+            
             system.refresh_all();
+            
             let currently_used_memory = system.used_memory();
-
-            // println!("Used memory: {}/{} MB", currently_used_memory / 1024, total_memory / 1024);
-
             let avg_cpu_usage: f32 = system.cpus().iter().map(|c| c.cpu_usage()).sum::<f32>() / system.cpus().len() as f32;
-            // println!("Average CPU usage: {avg_cpu_usage:.2}%");
-
             let request = tonic::Request::new(HealthData {
                 id: self.id.clone(),
                 ram: currently_used_memory as f32 / total_memory as f32,

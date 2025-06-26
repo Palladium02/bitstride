@@ -22,6 +22,7 @@ impl RegisterService {
         client.register_node(NodeInformation {
             id: self.id.clone(),
             max_connections: 10, // TODO: remove static default
+            service_port: 80,
         }).await?;
         
         Ok(())

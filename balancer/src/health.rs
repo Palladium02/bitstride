@@ -1,4 +1,5 @@
-use std::sync::{Arc, Mutex};
+use std::sync::Arc;
+use tokio::sync::Mutex;
 use tonic::{Request, Response, Status};
 use crate::health::health_rpc::health_server::Health;
 use crate::health::health_rpc::{Empty, HealthData};
@@ -22,7 +23,7 @@ impl HealthService {
 #[tonic::async_trait]
 impl Health for HealthService {
     async fn report_health(&self, request: Request<HealthData>) -> Result<Response<Empty>, Status> {
-        self.pool.lock().expect("").update(request.into_inner());
+        self.pool.lock().await.update(request.into_inner());
         
         Ok(Response::new(Empty {}))
     }

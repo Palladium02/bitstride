@@ -22,6 +22,7 @@ impl Pool {
         if let Some(metric) = self.priority_queue.get_by_id(health_data.id.as_str()) {
             let updated_metric = NodeMetrics {
                 id: health_data.id,
+                ip: metric.ip,
                 max_connections: metric.max_connections,
                 current_connections: metric.current_connections,
                 cpu_usage: health_data.cpu,
@@ -31,6 +32,9 @@ impl Pool {
             
             self.priority_queue.update(updated_metric)
         }
-        
+    }
+    
+    pub fn get_best(&mut self) -> Option<NodeMetrics> {
+        self.priority_queue.pop()
     }
 }

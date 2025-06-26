@@ -1,4 +1,5 @@
-use std::sync::{Arc, Mutex};
+use std::sync::Arc;
+use tokio::sync::Mutex;
 use tonic::{Request, Response, Status};
 use crate::metric::NodeMetrics;
 use crate::pool::Pool;
@@ -23,9 +24,7 @@ impl RegisterService {
 #[tonic::async_trait]
 impl Register for RegisterService {
     async fn register_node(&self, request: Request<NodeInformation>) -> Result<Response<Empty>, Status> {
-        self.pool.lock().expect("Poisoned lock").add(NodeMetrics::from(request.into_inner()));
-        
-        println!("Node registered");
+        self.pool.lock().await.add(NodeMetrics::from(request));
         
         Ok(Response::new(Empty {}))
     }

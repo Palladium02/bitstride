@@ -10,4 +10,5 @@ message Empty {};
 message NodeInformation {
   string id = 1;
   uint64 max_connections = 2;
+  uint32 service_port = 3;
 };
