@@ -14,6 +14,7 @@ impl Proxy {
     }
     
     pub async fn run(&self) {
+        // TODO: pass in config to bind to non static address
         let listener = TcpListener::bind("0.0.0.0:8888").await.expect("Failed to bind to address");
         loop {
             let pool = Arc::clone(&self.pool);
@@ -29,6 +30,7 @@ impl Proxy {
                 };
                 
                 if let Ok(mut stream) = TcpStream::connect(node.ip).await {
+                    // TODO: this could panic
                     copy_bidirectional(&mut client, &mut stream).await.expect("Failed to proxy");
                 }
             });
