@@ -30,7 +30,7 @@ impl Proxy {
                 
                 if let Ok(mut stream) = TcpStream::connect(node.ip).await {
                     if let Err(error) = copy_bidirectional(&mut client, &mut stream).await {
-                        eprintln!("{}", error);
+                        eprintln!("{error}");
                     }
                 }
             });
