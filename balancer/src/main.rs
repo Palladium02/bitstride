@@ -1,19 +1,19 @@
+mod balancer;
 mod config;
+mod grpc;
 mod health;
 mod metric;
 mod pool;
-mod success;
-mod register;
 mod priority_queue;
 mod proxy;
-mod balancer;
-mod grpc;
+mod register;
+mod success;
 
+use crate::balancer::Balancer;
 use anyhow::Result;
 use config::Config;
 use std::env::args;
 use std::process::exit;
-use crate::balancer::Balancer;
 
 #[tokio::main]
 async fn main() -> Result<()> {

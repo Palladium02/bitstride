@@ -1,10 +1,10 @@
-use std::sync::Arc;
-use tokio::spawn;
-use tokio::sync::Mutex;
 use crate::config::Config;
 use crate::grpc::GrpcServer;
 use crate::pool::Pool;
 use crate::proxy::Proxy;
+use std::sync::Arc;
+use tokio::spawn;
+use tokio::sync::Mutex;
 
 pub(crate) struct Balancer {
     pool: Arc<Mutex<Pool>>,
@@ -21,14 +21,16 @@ impl Balancer {
             config,
         }
     }
-    
+
     pub async fn run(self) -> Result<(), Box<dyn std::error::Error>> {
         spawn(async move {
-            Proxy::new(Arc::clone(&self.pool)).run(self.config.port).await
+            Proxy::new(Arc::clone(&self.pool))
+                .run(self.config.port)
+                .await
         });
-        
+
         self.grpc_server.serve(&self.config.rpc_address).await?;
-        
+
         Ok(())
     }
 }

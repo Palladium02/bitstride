@@ -1,9 +1,9 @@
-use std::sync::Arc;
-use tokio::sync::Mutex;
-use tonic::{Request, Response, Status};
 use crate::health::health_rpc::health_server::Health;
 use crate::health::health_rpc::{Empty, HealthData};
 use crate::pool::Pool;
+use std::sync::Arc;
+use tokio::sync::Mutex;
+use tonic::{Request, Response, Status};
 
 pub(crate) mod health_rpc {
     tonic::include_proto!("health");
@@ -24,7 +24,7 @@ impl HealthService {
 impl Health for HealthService {
     async fn report_health(&self, request: Request<HealthData>) -> Result<Response<Empty>, Status> {
         self.pool.lock().await.update(request.into_inner());
-        
+
         Ok(Response::new(Empty {}))
     }
 }

@@ -1,8 +1,8 @@
+use crate::register::register_rpc::NodeInformation;
+use crate::success::SuccessTracker;
 use std::cmp::Ordering;
 use std::net::SocketAddr;
 use tonic::Request;
-use crate::register::register_rpc::NodeInformation;
-use crate::success::SuccessTracker;
 
 const ALPHA: f32 = 1.0;
 const BETA: f32 = 1.0;
@@ -31,12 +31,8 @@ impl NodeMetrics {
 
         let sum_weights = ALPHA + BETA + GAMMA + DELTA;
 
-        (
-            ALPHA * success_score +
-                BETA * cpu_score +
-                GAMMA * ram_score +
-                DELTA * connection_score
-        ) / sum_weights
+        (ALPHA * success_score + BETA * cpu_score + GAMMA * ram_score + DELTA * connection_score)
+            / sum_weights
     }
 }
 
@@ -49,7 +45,9 @@ impl PartialEq<Self> for NodeMetrics {
 impl Eq for NodeMetrics {}
 
 impl PartialOrd<Self> for NodeMetrics {
-    fn partial_cmp(&self, other: &Self) -> Option<Ordering> { Some(self.cmp(other)) }
+    fn partial_cmp(&self, other: &Self) -> Option<Ordering> {
+        Some(self.cmp(other))
+    }
 }
 
 impl Ord for NodeMetrics {
@@ -60,10 +58,13 @@ impl Ord for NodeMetrics {
 
 impl From<Request<NodeInformation>> for NodeMetrics {
     fn from(value: Request<NodeInformation>) -> Self {
-        let ip = value.remote_addr().expect("Failed to get remote address").ip();
+        let ip = value
+            .remote_addr()
+            .expect("Failed to get remote address")
+            .ip();
         let node_information = value.into_inner();
         let service_address = SocketAddr::from((ip, node_information.service_port as u16));
-        
+
         Self {
             id: node_information.id,
             ip: service_address,

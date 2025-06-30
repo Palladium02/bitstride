@@ -13,11 +13,11 @@ impl Pool {
             priority_queue: PriorityQueue::new(),
         }
     }
-    
+
     pub fn add(&mut self, metric: NodeMetrics) {
         self.priority_queue.insert(metric);
     }
-    
+
     pub fn update(&mut self, health_data: HealthData) {
         if let Some(metric) = self.priority_queue.get_by_id(health_data.id.as_str()) {
             let updated_metric = NodeMetrics {
@@ -29,11 +29,11 @@ impl Pool {
                 ram_usage: health_data.ram,
                 success_tracker: metric.success_tracker.clone(),
             };
-            
+
             self.priority_queue.update(updated_metric)
         }
     }
-    
+
     pub fn get_best(&mut self) -> Option<NodeMetrics> {
         self.priority_queue.pop()
     }
