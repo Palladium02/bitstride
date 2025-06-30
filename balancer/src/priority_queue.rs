@@ -59,8 +59,10 @@ impl PriorityQueue
     /// Returns ref to NodeMetrics instance by id if present.
     /// Panics if instance id is not present (subject to change).
     pub fn get_by_id(&self, id: &str) -> Option<&NodeMetrics> {
-        // TODO: this could panic
-        self.heap.get(*self.index.get(id).unwrap())
+        match self.index.get(id) {
+            Some(&index) => self.heap.get(index),
+            None => None,
+        }
     }
     
     fn sift_up(&mut self, index: usize) -> usize {

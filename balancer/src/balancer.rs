@@ -24,7 +24,7 @@ impl Balancer {
     
     pub async fn run(self) -> Result<(), Box<dyn std::error::Error>> {
         spawn(async move {
-            Proxy::new(Arc::clone(&self.pool)).run().await
+            Proxy::new(Arc::clone(&self.pool)).run(self.config.port).await
         });
         
         self.grpc_server.serve(&self.config.rpc_address).await?;

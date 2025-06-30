@@ -16,6 +16,7 @@ pub enum ConfigError {
 #[derive(Debug, Deserialize)]
 pub struct Config {
     pub rpc_address: String,
+    pub port: u16,
 }
 
 impl Config {

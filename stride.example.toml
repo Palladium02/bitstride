@@ -1,1 +1,2 @@
 rpc_address = "[::1]:1337"
+port = 80
