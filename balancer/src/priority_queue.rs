@@ -28,7 +28,6 @@ impl PriorityQueue {
 
     /// Removes entry from the queue while also returning said entry if present.
     /// After returning the heap properties are guaranteed to be restored.
-    #[allow(unused)] // TODO: remove later, when implementing proxy logic
     pub fn pop(&mut self) -> Option<NodeMetrics> {
         if self.heap.is_empty() {
             return None;
