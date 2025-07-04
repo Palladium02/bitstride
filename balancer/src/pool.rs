@@ -35,6 +35,14 @@ impl Pool {
     }
 
     pub fn get_best(&mut self) -> Option<NodeMetrics> {
-        self.priority_queue.pop()
+        match self.priority_queue.pop() {
+            Some(metric) => {
+                let mut reinsert = metric.clone();
+                reinsert.current_connections += 1;
+                self.add(reinsert);
+                Some(metric)
+            }
+            None => None,
+        }
     }
 }
