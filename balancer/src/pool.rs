@@ -4,7 +4,7 @@ use crate::priority_queue::PriorityQueue;
 
 #[derive(Debug, Clone)]
 pub struct Pool {
-    priority_queue: PriorityQueue,
+    priority_queue: PriorityQueue<NodeMetrics>,
 }
 
 impl Pool {

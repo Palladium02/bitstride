@@ -1,5 +1,6 @@
 use crate::register::register_rpc::NodeInformation;
 use crate::success::SuccessTracker;
+use crate::traits::Identifiable;
 use std::cmp::Ordering;
 use std::net::SocketAddr;
 use tonic::Request;
@@ -33,6 +34,12 @@ impl NodeMetrics {
 
         (ALPHA * success_score + BETA * cpu_score + GAMMA * ram_score + DELTA * connection_score)
             / sum_weights
+    }
+}
+
+impl Identifiable for NodeMetrics {
+    fn get_id(&self) -> &str {
+        &self.id
     }
 }
 

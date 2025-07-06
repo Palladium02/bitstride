@@ -8,6 +8,7 @@ mod priority_queue;
 mod proxy;
 mod register;
 mod success;
+mod traits;
 
 use crate::balancer::Balancer;
 use anyhow::Result;
