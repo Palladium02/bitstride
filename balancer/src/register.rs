@@ -27,7 +27,10 @@ impl Register for RegisterService {
         &self,
         request: Request<NodeInformation>,
     ) -> Result<Response<Empty>, Status> {
-        self.pool.lock().await.add(NodeMetrics::from(request));
+        self.pool
+            .lock()
+            .await
+            .add(NodeMetrics::try_from(request).expect(""));
 
         Ok(Response::new(Empty {}))
     }

@@ -22,7 +22,7 @@ async fn main() -> Result<()> {
     match args().nth(1) {
         Some(config_path) => {
             let config = Config::from_path(config_path)?;
-            let _ = Balancer::new(config).run().await;
+            let _ = Balancer::new(config).await.run().await;
         }
         None => {
             eprint!(

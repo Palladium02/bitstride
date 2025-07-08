@@ -15,11 +15,13 @@ pub(crate) struct Balancer {
 }
 
 impl Balancer {
-    pub fn new(config: Config) -> Self {
+    pub async fn new(config: Config) -> Self {
         let pool = Arc::new(Mutex::new(Pool::new()));
         Self {
             pool: Arc::clone(&pool),
-            persistence_service: Arc::new(Mutex::new(PersistenceService::new(&config.db_url))),
+            persistence_service: Arc::new(Mutex::new(
+                PersistenceService::new(&config.db_url).await.expect(""),
+            )),
             grpc_server: GrpcServer::new(Arc::clone(&pool)),
             config,
         }

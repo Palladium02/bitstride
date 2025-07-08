@@ -63,11 +63,14 @@ impl Ord for NodeMetrics {
     }
 }
 
+#[derive(Debug)]
+pub struct RequestConversionError;
+
 impl TryFrom<Request<NodeInformation>> for NodeMetrics {
-    type Error;
+    type Error = RequestConversionError;
 
     fn try_from(value: Request<NodeInformation>) -> Result<Self, Self::Error> {
-        let ip = value.remote_addr().ok_or()?.ip();
+        let ip = value.remote_addr().ok_or(RequestConversionError)?.ip();
         let node_information = value.into_inner();
         let service_address = SocketAddr::from((ip, node_information.service_port as u16));
 
@@ -80,26 +83,5 @@ impl TryFrom<Request<NodeInformation>> for NodeMetrics {
             ram_usage: 0.0,
             success_tracker: SuccessTracker::new(0.5),
         })
-    }
-}
-
-impl From<Request<NodeInformation>> for NodeMetrics {
-    fn from(value: Request<NodeInformation>) -> Self {
-        let ip = value
-            .remote_addr()
-            .expect("Failed to get remote address")
-            .ip();
-        let node_information = value.into_inner();
-        let service_address = SocketAddr::from((ip, node_information.service_port as u16));
-
-        Self {
-            id: node_information.id,
-            ip: service_address,
-            max_connections: 0,
-            current_connections: 0,
-            cpu_usage: 0.0,
-            ram_usage: 0.0,
-            success_tracker: SuccessTracker::new(0.5),
-        }
     }
 }
