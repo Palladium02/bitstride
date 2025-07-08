@@ -3,6 +3,7 @@ mod config;
 mod grpc;
 mod health;
 mod metric;
+mod persistence;
 mod pool;
 mod priority_queue;
 mod proxy;

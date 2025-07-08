@@ -17,6 +17,7 @@ pub enum ConfigError {
 pub struct Config {
     pub rpc_address: String,
     pub port: u16,
+    pub db_url: String,
 }
 
 impl Config {
